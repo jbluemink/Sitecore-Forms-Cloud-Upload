@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.645
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stockpick.Form.Cloud", "Stockpick.Form.Cloud.csproj", "{248BD343-E48A-41E3-A001-E2C678D857BF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{248BD343-E48A-41E3-A001-E2C678D857BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{248BD343-E48A-41E3-A001-E2C678D857BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{248BD343-E48A-41E3-A001-E2C678D857BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{248BD343-E48A-41E3-A001-E2C678D857BF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E20D6740-B594-47AF-A23F-7884A7089CE7}
+	EndGlobalSection
+EndGlobal
