@@ -4,13 +4,21 @@ Parent: "891e7268-fa3e-4e74-b4b1-c16b206f2165"
 Template: "c2d1d114-3cfe-4558-a9e3-d1a1ec0fcab7"
 Path: /sitecore/system/Settings/Forms/Submit Actions/Cloud Store
 DB: master
+SharedFields:
+- ID: "06d5295c-ed2f-4a54-9bf2-26228d113318"
+  Hint: __Icon
+  Value: People/32x32/cloud.png
+- ID: "2c6e7306-2871-473a-9149-71443182b8e8"
+  Hint: Model Type
+  Value: Stockpick.Forms.Feature.ExperienceForms.Submit.AzureQueueSubmit
 Languages:
 - Language: en
   Versions:
   - Version: 1
     Fields:
     - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
-      Value: "20191027T100048:637077672489348568Z"
+      Hint: __Created
+      Value: 20191027T100048Z
     - ID: "47837625-b3d9-46f1-a73b-ff13dd1c8b25"
       Hint: Error Message
       Value: "Saving form data failed!"
