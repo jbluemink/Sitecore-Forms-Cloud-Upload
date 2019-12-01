@@ -1,9 +1,7 @@
 ﻿using System;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using Microsoft.Azure;
-using Microsoft.Azure.KeyVault;
 using System.Threading.Tasks;
-using System.Security.Cryptography;
+
 
 namespace Stockpick.Form.Cloud.Crypto
 {
@@ -26,21 +24,6 @@ namespace Stockpick.Form.Cloud.Crypto
                     "Failed to obtain the JWT token check: Stockpick.Forms.KeyFault.ClientId and Stockpick.Forms.KeyFault.ClientSecret");
 
             return result.AccessToken;
-        }
-
-        public static byte[] CreateHash(byte[] salt, string input)
-        {
-            // Generate the hash
-            Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(input, salt, ITERATIONS);
-            return pbkdf2.GetBytes(HASH_SIZE);
-        }
-
-        public static byte[] CreateSalt()
-        {
-            // Generate a salt
-            RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
-            byte[] salt = new byte[SALT_SIZE];
-            return salt;
         }
 
     }

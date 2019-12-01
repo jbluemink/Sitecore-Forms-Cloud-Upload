@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
-using System.Security.Cryptography;
 using Sitecore.Diagnostics;
 using Sitecore.ExperienceForms.Models;
 using Sitecore.ExperienceForms.Processing;
@@ -20,7 +19,6 @@ using Sitecore.ExperienceForms.Data;
 using Microsoft.Azure.KeyVault;
 using Stockpick.Form.Cloud.Crypto;
 using System.Threading;
-using Sitecore.Extensions;
 
 namespace Stockpick.Forms.Feature.ExperienceForms.Submit
 {
@@ -93,14 +91,10 @@ namespace Stockpick.Forms.Feature.ExperienceForms.Submit
             // Create the queue if it doesn't already exist
             queue.CreateIfNotExists();
 
-            //A crypto salt
-            var salt = Keyvault.CreateSalt();
-
             // Create a message 
             var message = new FormFields
             {
                 FormId = formSubmitContext.FormId.ToString(),
-                Salt = Convert.ToBase64String(salt),
                 Fields = new List<FormFieldSmall>()
             };
             List<Guid> filesource = new List<Guid>();
@@ -112,7 +106,7 @@ namespace Stockpick.Forms.Feature.ExperienceForms.Submit
 
             if (filesource.Any<Guid>())
             {
-                StoreFiles(storageAccount, formSubmitContext, (IEnumerable<Guid>) filesource, salt);
+                StoreFiles(storageAccount, formSubmitContext, (IEnumerable<Guid>) filesource);
             }
             // Create a queue message with JSON and add it to the queue.
             CloudQueueMessage queuemessage = new CloudQueueMessage(JsonConvert.SerializeObject(message));
@@ -120,28 +114,29 @@ namespace Stockpick.Forms.Feature.ExperienceForms.Submit
             return true;
         }
 
-        private  void StoreFiles(CloudStorageAccount storageAccount, FormSubmitContext formSubmitContext,IEnumerable<Guid> fileIds, byte[] salt)
+        private  void StoreFiles(CloudStorageAccount storageAccount, FormSubmitContext formSubmitContext,IEnumerable<Guid> fileIds)
         {
             var cloudBlobClient = storageAccount.CreateCloudBlobClient();
             var blob = cloudBlobClient.GetContainerReference("stockpickformsblob");
             blob.CreateIfNotExists();
 
-            KeyVaultClient cloudResolver = new KeyVaultClient(Keyvault.GetToken);
-            //var secret = cloudResolver.ResolveKeyAsync("https://sitecorestockpick.vault.azure.net/secrets/form-file-key/b63c9b2c0a49450bb86ed3b19544e9d9", CancellationToken.None).GetAwaiter().GetResult();
-            var secret = cloudResolver.GetSecretAsync("https://sitecorestockpick.vault.azure.net/secrets/form-file-key", CancellationToken.None).GetAwaiter().GetResult();
-
-            Log.Info("secret is "+ secret.Value, this);
+            var cloudResolver = new KeyVaultKeyResolver(Keyvault.GetToken);
+            var url = Sitecore.Configuration.Settings.GetSetting("Stockpick.Forms.KeyFault.Key.URL");
+            if (string.IsNullOrEmpty(url))
+            {
+                Log.Error("config key Stockpick.Forms.KeyFault.Key.URL is emty",this);
+            }
+            var key = cloudResolver.ResolveKeyAsync(url, CancellationToken.None).GetAwaiter().GetResult();
+          
             foreach (var gui in fileIds)
             {
                 Log.Info("file " + gui.ToString(), this);
                 var file = FileStorageProvider.GetFile(gui);
                 if (file != null)
                 {
-                    Log.Info("Upload to Cloud storage file " + file.FileInfo.FileName, this);
-
-                    RsaKey rsakey = new RsaKey(salt + secret.Value);
-                    RsaKey rsakey2 = new RsaKey(salt + secret.Value);
-                    BlobEncryptionPolicy policy = new BlobEncryptionPolicy(rsakey, null);
+                    Log.Info("Upload to Cloud storage file " + file.FileInfo.FileName + " using key kid:" + key.Kid, this);
+              
+                    BlobEncryptionPolicy policy = new BlobEncryptionPolicy(key, null);
                     BlobRequestOptions options = new BlobRequestOptions() { EncryptionPolicy = policy };
 
                     CloudBlockBlob cloudBlockBlob = blob.GetBlockBlobReference(gui.ToString());
@@ -150,7 +145,6 @@ namespace Stockpick.Forms.Feature.ExperienceForms.Submit
                         cloudBlockBlob.UploadFromStream(filestream, null, options, null);
                     }
 
-                    RsaKey rsakey3 = new RsaKey(salt + secret.Value);
                 }
             }
 
