@@ -130,11 +130,10 @@ namespace Stockpick.Forms.Feature.ExperienceForms.Submit
           
             foreach (var gui in fileIds)
             {
-                Log.Info("file " + gui.ToString(), this);
                 var file = FileStorageProvider.GetFile(gui);
                 if (file != null)
                 {
-                    Log.Info("Upload to Cloud storage file " + file.FileInfo.FileName + " using key kid:" + key.Kid, this);
+                    Log.Info("Upload to Cloud storage file " + file.FileInfo.FileName + " as " + gui.ToString() + " using key kid:" + key.Kid, this);
               
                     BlobEncryptionPolicy policy = new BlobEncryptionPolicy(key, null);
                     BlobRequestOptions options = new BlobRequestOptions() { EncryptionPolicy = policy };

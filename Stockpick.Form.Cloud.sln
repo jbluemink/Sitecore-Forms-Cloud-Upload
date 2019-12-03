@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.645
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stockpick.Form.Cloud", "Stockpick.Form.Cloud.csproj", "{248BD343-E48A-41E3-A001-E2C678D857BF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DecryptBlobFile", "DecryptBlobFile\DecryptBlobFile.csproj", "{B0C930E8-265B-4C5C-94B5-313B3A54F30A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{248BD343-E48A-41E3-A001-E2C678D857BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{248BD343-E48A-41E3-A001-E2C678D857BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{248BD343-E48A-41E3-A001-E2C678D857BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0C930E8-265B-4C5C-94B5-313B3A54F30A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0C930E8-265B-4C5C-94B5-313B3A54F30A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0C930E8-265B-4C5C-94B5-313B3A54F30A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0C930E8-265B-4C5C-94B5-313B3A54F30A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
