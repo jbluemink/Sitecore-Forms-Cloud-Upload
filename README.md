@@ -27,7 +27,7 @@ SEE https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create
 ##Create a Key vault
 For storing the secret decryption key
 - Create a Key with name sitecoreformupload, RSA is fine.
-- Goto Access policies of your Key vault, and add your app give Key Permissions GET
+- Goto Access policies of your Key vault, and add your app give Key Permissions GET and unwrapKey
 
 # Sitecore setup, Sitecore 9.3+
 - Compile
@@ -39,3 +39,6 @@ For storing the secret decryption key
 
 It also contains a Decrypt controller, but that is more for the purpose to demo how to encrypt a file, Note in this example all files are encrypted with the same key. So still possible to easy get all uploaded files if you have the key. I expect you to delete the uploaded files after you have processed them, so that they are only there for a while.
 Example url https://sc93sc.dev.local/api/decryptblobfile/File/963ac1b1-4744-4c42-9a00-76771d8f82c2
+
+note: Sitecore Forms automatically stores uploaded files when a visitor navigates between form pages. So the uploads are still unencrypted in the ExperienceForms database, you need to create also a custom FileStorageProvider class
+currently not included in this project.
