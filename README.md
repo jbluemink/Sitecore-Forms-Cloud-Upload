@@ -42,3 +42,5 @@ Example url https://sc93sc.dev.local/api/decryptblobfile/File/963ac1b1-4744-4c42
 
 note: Sitecore Forms automatically stores uploaded files when a visitor navigates between form pages. So the uploads are still unencrypted in the ExperienceForms database, you need to create also a custom FileStorageProvider class
 currently not included in this project.
+
+So actually this first attempt is not optimal, to be continued
